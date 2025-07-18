@@ -27,3 +27,4 @@ replay_pid*
 /karate-scanner-maven-plugin/target
 /target
 /karate-scanner-example/target
+/.idea
