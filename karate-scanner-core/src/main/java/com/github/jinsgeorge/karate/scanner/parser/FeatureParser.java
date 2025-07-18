@@ -18,7 +18,8 @@ public class FeatureParser {
     public static FeatureModel parse(Path path) throws IOException {
         List<String> lines = Files.readAllLines(path);
         FeatureModel feature = new FeatureModel();
-        feature.setFilePath(path.toString());
+        String normalizedPath = path.toAbsolutePath().toString().replace("\\", "/");
+        feature.setFilePath(normalizedPath);
 
         ScenarioModel currentScenario = null;
 
