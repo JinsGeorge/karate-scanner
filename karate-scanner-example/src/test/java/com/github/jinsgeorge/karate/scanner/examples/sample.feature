@@ -7,5 +7,4 @@ Feature: Sample feature with lint issues
     Given url 'http://example.com'
     When method get
     Then status 200
-    When method get
     Then status 200
