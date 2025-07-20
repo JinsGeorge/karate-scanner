@@ -1,6 +1,7 @@
 package com.github.jinsgeorge.karate.scanner.maven;
 
 import com.github.jinsgeorge.karate.scanner.FeatureQualityAnalyzer;
+import com.github.jinsgeorge.karate.scanner.report.RuleRegistry;
 import com.github.jinsgeorge.karate.scanner.rules.QualityRule;
 import com.github.jinsgeorge.karate.scanner.rules.DuplicateStepRule;
 import com.github.jinsgeorge.karate.scanner.rules.PrintUsageRule;
@@ -33,13 +34,7 @@ public class KarateScannerMojo extends AbstractMojo {
             getLog().info("Running Karate Scanner on: " + directory);
 
             Path dirPath = Paths.get(directory);
-            List<QualityRule> rules = Arrays.asList(
-                    new DuplicateStepRule(),
-                    new PrintUsageRule()
-                    // Add more rule classes here as you create them
-            );
-
-            FeatureQualityAnalyzer.run(dirPath, rules);
+            FeatureQualityAnalyzer.run(dirPath, RuleRegistry.getAll());
 
             getLog().info("Karate Scanner completed successfully.");
         } catch (Exception e) {

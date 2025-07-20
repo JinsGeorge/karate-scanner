@@ -1,16 +1,25 @@
 package com.github.jinsgeorge.karate.scanner.report;
 
-import com.github.jinsgeorge.karate.scanner.rules.DuplicateStepRule;
-import com.github.jinsgeorge.karate.scanner.rules.PrintUsageRule;
-import com.github.jinsgeorge.karate.scanner.rules.QualityRule;
-
+import com.github.jinsgeorge.karate.scanner.rules.*;
 import java.util.List;
 
 public class RuleRegistry {
 
     private RuleRegistry(){}
     public static List<QualityRule> getAll() {
-        return List.of(new PrintUsageRule(), new DuplicateStepRule());
+        return List.of(
+                new PrintUsageRule(),
+                new DuplicateStepRule(),
+                new EmptyScenarioRule(),
+                new DuplicateScenarioNameRule(),
+                new CommentedOutCodeRule(),
+                new HardcodedUrlRule(),
+                new GherkinsStructureRule(),
+                new HardcodedAuthRule(),
+                new IncorrectStepOrderRule(),
+                new LargeJsonInlineRule(),
+                new MissingAssertionRule(),
+                new MissingTagRule());
     }
 
     public static List<ExternalRule> getExternalRules() {
