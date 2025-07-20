@@ -1,17 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Root POM for the Karate‑Scanner multi‑module build -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.jinsgeorge</groupId>
+    <!-- ‑‑‑ coordinates ‑‑‑ -->
+    <groupId>io.github.jinsgeorge</groupId>
     <artifactId>karate-scanner</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>Karate Scanner</name>
-    <description>Code quality and test coverage plugin for Karate test framework</description>
+    <description>Code quality and test‑coverage plugin for the Karate test framework</description>
+    <url>https://github.com/JinsGeorge/karate-scanner</url>
 
+    <!-- child modules -->
     <modules>
         <module>karate-scanner-core</module>
         <module>karate-scanner-cli</module>
@@ -19,18 +24,57 @@
         <module>karate-scanner-maven-plugin</module>
     </modules>
 
+    <!-- ‑‑‑ project‑wide properties ‑‑‑ -->
     <properties>
+        <!-- compiler -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin.version>3.12.0</maven.compiler.plugin.version>
+
+        <!-- testing & logging -->
         <junit.version>5.10.2</junit.version>
         <slf4j.version>2.0.13</slf4j.version>
 
+        <!-- release‑time tooling -->
+        <maven.gpg.plugin.version>3.2.4</maven.gpg.plugin.version>
+        <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
+        <maven.javadoc.plugin.version>3.6.3</maven.javadoc.plugin.version>
+        <central.publishing.plugin.version>0.8.0</central.publishing.plugin.version>
+
+        <!-- other -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- ‑‑‑ legal & SCM metadata (required by Central) ‑‑‑ -->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jins George</name>
+            <email>jins.george.dev@gmail.com</email>
+            <organization>io.github.jinsgeorge</organization>
+            <organizationUrl>https://github.com/JinsGeorge</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/JinsGeorge/karate-scanner.git</connection>
+        <developerConnection>scm:git:git@github.com:JinsGeorge/karate-scanner.git</developerConnection>
+        <url>https://github.com/JinsGeorge/karate-scanner</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!-- ‑‑‑ dependency management shared by all modules ‑‑‑ -->
     <dependencyManagement>
         <dependencies>
-            <!-- Shared versions across all modules -->
+
+            <!-- JUnit 5 -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -43,6 +87,8 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- SLF4J -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -54,7 +100,98 @@
                 <version>${slf4j.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
+    <!-- ‑‑‑ build plugins that actually execute ‑‑‑ -->
+    <build>
+        <plugins>
+
+            <!-- 1) Central Publishing (uploads & releases) -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${central.publishing.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <!-- Wait until deployment is visible before finishing the build -->
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
+
+            <!-- 2) Compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- 3) Source JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals><goal>jar-no-fork</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 4) Javadoc JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals><goal>jar</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doclint>none</doclint>
+                    <source>${maven.compiler.source}</source>
+                </configuration>
+            </plugin>
+
+            <!-- 5) GPG signing (runs during verify) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven.gpg.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals><goal>sign</goal></goals>
+                        <configuration>
+                            <!-- allows pinentry-less signing on CI -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 6) Maven‑plugin-plugin for the karate‑scanner‑maven‑plugin module -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.15.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- No distributionManagement: central publishing plugin handles upload -->
 </project>

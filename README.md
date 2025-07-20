@@ -46,7 +46,7 @@ Generates:
 
 ```xml
 <plugin>
-  <groupId>com.github.jinsgeorge</groupId>
+  <groupId>io.github.jinsgeorge</groupId>
   <artifactId>karate-scanner-maven</artifactId>
   <version>1.0.0</version>
   <executions>
@@ -60,7 +60,7 @@ Generates:
 ```
 
 ```bash
- mvn com.github.jinsgeorge:karate-scanner-maven-plugin:1.0.0:scan
+ mvn io.github.jinsgeorge:karate-scanner-maven-plugin:1.0.0:scan
 ```
 
 ---

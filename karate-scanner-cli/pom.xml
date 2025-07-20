@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.jinsgeorge</groupId>
+        <groupId>io.github.jinsgeorge</groupId>
         <artifactId>karate-scanner</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -11,7 +11,7 @@
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
-            <groupId>com.github.jinsgeorge</groupId>
+            <groupId>io.github.jinsgeorge</groupId>
             <artifactId>karate-scanner-core</artifactId>
             <version>1.0.0</version>
         </dependency>
@@ -45,6 +45,22 @@
                 <source>17</source>
                 <target>17</target>
             </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
